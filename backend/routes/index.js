@@ -5,8 +5,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import pkg from 'pg';
 import 'dotenv/config';
+import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 
-
+if (process.env.NODE_ENV === 'production') disableReactDevTools
 
 dotenv.config();
 
