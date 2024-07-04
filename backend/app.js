@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import indexRouter from "./routes/index.js";
 import cors from 'cors'
+import { json } from "sequelize";
 const PORT = 4000;
 
 // import userRouter from "./routes/users.js"
@@ -21,6 +22,9 @@ app.use("/", indexRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
+app.render(function (req, res) {
+   json.send('recived')
+} )
 
 // error handler
 
