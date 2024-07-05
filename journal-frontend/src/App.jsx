@@ -94,29 +94,20 @@ const App = () => {
     };
 
     const updateEntry = async (id) => {
+        
         if (!description.trim()) {
             console.error("Description is required");
             return;
         }
 
-        if (location.latitude === null || location.longitude === null) {
-            console.error("Location not available");
-            return;
-        }
-
         try {
-            const weatherData = await fetchWeatherData(location.latitude, location.longitude);
-
             const response = await axios.put(`http://localhost:4000/${id}`, {
                 date: new Date(date),
                 description,
-                latitude: location.latitude,
-                longitude: location.longitude,
-                weather: weatherData.weather,
-                temperature: weatherData.temperature
             });
 
-            setEntries(entries.map(entry => (entry._id === id ? response.data : entry)));
+            setEntries(entries.map(entry => (entry.id === id ? response.data : entry)));
+
             setEditingEntry(null);
             setDescription('');
             setDate(dayjs().format('YYYY-MM-DD'));
@@ -124,6 +115,7 @@ const App = () => {
             console.error("Error updating entry: ", error);
         }
     };
+
 
     return (
         <container>

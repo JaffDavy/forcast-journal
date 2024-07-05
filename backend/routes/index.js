@@ -14,6 +14,7 @@ const app = express();
 const router = express.Router();
 
 const apiKey = process.env.OPENWEATHERMAP_API_KEY;
+const apiUrl = process.env.OPENWEATHERMAP_API_URL;
 
 app.use(bodyParser.json());
 app.use(cors());  
@@ -24,7 +25,7 @@ router.post('/', (req, res, next) => {
     if (!latitude || !longitude) {
       return res.status(400).json({ message: 'Latitude and Longitude are required' });
     }
-    const url = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+    const url = `${apiUrl}lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
     console.log(`Requesting weather data from URL: ${url}`);
     axios.get(url)
       .then(weatherResponse => {
