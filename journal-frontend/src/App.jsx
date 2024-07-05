@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import { API_BASE_URL } from './utils/constants';
 
 const App = () => {
     const [entries, setEntries] = useState([]);
@@ -42,7 +43,7 @@ const App = () => {
 
     const fetchEntries = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/');
+            const response = await axios.get(`${API_BASE_URL}/`);
             setEntries(response.data);
             setError(null)
         } catch (error) {
@@ -65,7 +66,7 @@ const App = () => {
         try {
             const weatherData = await fetchWeatherData(location.latitude, location.longitude);
 
-            const response = await axios.post('http://localhost:4000/', {
+            const response = await axios.post(`${API_BASE_URL}/`, {
                 date: new Date(date),
                 description,
                 latitude: location.latitude,
@@ -84,7 +85,7 @@ const App = () => {
 
     const deleteEntry = async (id) => {
         try {
-            await axios.delete(`http://localhost:4000/${id}`);
+            await axios.delete(`${API_BASE_URL}/${id}`);
             setEntries(entries.filter(entry => entry.id !== id));
             setError(null)
         } catch (error) {
@@ -101,7 +102,7 @@ const App = () => {
         }
 
         try {
-            const response = await axios.put(`http://localhost:4000/${id}`, {
+            const response = await axios.put(`${API_BASE_URL}/${id}`, {
                 date: new Date(date),
                 description,
             });
