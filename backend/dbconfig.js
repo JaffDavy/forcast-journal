@@ -1,6 +1,7 @@
 import pg from "pg";
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 dotenv.config();
+
 const { Pool } = pg;
 
 const pool = new Pool({
@@ -13,35 +14,38 @@ const pool = new Pool({
 
 pool.connect()
   .then(() => {
-    console.log("Connected to the database on port 5432")
-    const checkingTheTableQUery = `
-      SELECT EXIST (
-      SELECT FROM information_shema.tables
+    console.log("Connected to the database on port 5432");
+
+    const checkingTheTableQuery = `
+      SELECT EXISTS (
+      SELECT FROM information_schema.tables
       WHERE table_schema = 'public'
       AND table_name = 'entries'
       )`;
 
     const createTableQuery = `
       CREATE TABLE entries (
-      id SERIAL INT PRIMARY KEY,
+      id SERIAL PRIMARY KEY,
       date DATE,
       description VARCHAR(200),
       weather TEXT,
-      temparature FLOAT
-      )`
+      temperature FLOAT
+      )`;
 
-    pool.query((checkingTheTableQUery)
+    pool.query(checkingTheTableQuery)
       .then(result => {
-        if (!result.rows[0].exist) {
+        if (!result.rows[0].exists) {
           return pool.query(createTableQuery);
         }
       })
+      .then(() => {
+        // console.log("Table 'entries' is checked and created if it did not exist.");
+      })
       .catch(err => {
         console.error('Error executing query', err);
-      })
-    )
+      });
   })
-
-  .catch((err) => console.error(err));
+  .catch((err) => console.error('Error connecting to the database', err));
 
 export default pool;
+
