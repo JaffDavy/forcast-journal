@@ -13,9 +13,7 @@
     width: 85vh;
     padding: 10rem;
     font-size: larger;
-    background-image: url("/home/davy-arnold/kyrios-projects/jaff/node/weather-forcast-journal/forcast-journal/journal-frontend/src/assets/frankfurt-1453426_1280.jpg");
-    box-shadow: 100px 55px 5px grey;
-    color: white;
+    color: black;
 }
 
 button:hover {
